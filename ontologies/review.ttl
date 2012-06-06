@@ -1,0 +1,212 @@
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix swrl:    <http://www.w3.org/2003/11/swrl#> .
+@prefix protege:  <http://protege.stanford.edu/plugins/owl/protege#> .
+@prefix default:  <http://www.ontoreview.com/ontologies/review.owl#> .
+@prefix xsp:     <http://www.owl-ontologies.com/2005/08/07/xsp.owl#> .
+@prefix swrlb:   <http://www.w3.org/2003/11/swrlb#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+default:name
+      rdf:type owl:FunctionalProperty , owl:DatatypeProperty ;
+      rdfs:domain default:Object ;
+      rdfs:label "Name"@en ;
+      rdfs:range xsd:string .
+
+default:support
+      rdf:type owl:DatatypeProperty ;
+      rdfs:domain default:Comment ;
+      rdfs:label "Support Review"^^xsd:string ;
+      rdfs:range xsd:boolean .
+
+default:Review
+      rdf:type owl:Class ;
+      rdfs:label "Review"^^xsd:string ;
+      rdfs:subClassOf default:SocialContribution ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:cardinality "1"^^xsd:int ;
+                owl:onProperty default:rating
+              ] ;
+      owl:disjointWith default:Comment .
+
+default:hasComment
+      rdf:type owl:ObjectProperty ;
+      rdfs:domain default:Review ;
+      rdfs:label "Has Comment"@en ;
+      rdfs:range default:Comment ;
+      owl:inverseOf default:isCommentOf .
+
+default:hasReview
+      rdf:type owl:ObjectProperty ;
+      rdfs:domain default:Feature ;
+      rdfs:label "Has Review"@en ;
+      rdfs:range default:Review ;
+      owl:inverseOf default:isReviewOf .
+
+default:description
+      rdf:type owl:DatatypeProperty ;
+      rdfs:domain default:Object ;
+      rdfs:label "Description"@en ;
+      rdfs:range xsd:string .
+
+default:manufacturer
+      rdf:type owl:DatatypeProperty ;
+      rdfs:domain default:Object ;
+      rdfs:label "Manufacturer"@en ;
+      rdfs:range xsd:string .
+
+default:SocialContribution
+      rdf:type owl:Class ;
+      rdfs:label "Social Contribution"@en ;
+      rdfs:subClassOf owl:Thing ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:cardinality "1"^^xsd:int ;
+                owl:onProperty default:text
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:cardinality "1"^^xsd:int ;
+                owl:onProperty default:hasAuthor
+              ] ;
+      owl:disjointWith default:Person , default:Feature , default:Object .
+
+default:featureName
+      rdf:type owl:DatatypeProperty ;
+      rdfs:domain default:Feature ;
+      rdfs:label "Feature Name"@en ;
+      rdfs:range xsd:string .
+
+default:text
+      rdf:type owl:DatatypeProperty ;
+      rdfs:domain default:SocialContribution ;
+      rdfs:label "Text"@en ;
+      rdfs:range xsd:string .
+
+default:likes
+      rdf:type owl:DatatypeProperty ;
+      rdfs:domain default:Comment ;
+      rdfs:label "Likes"@en ;
+      rdfs:range xsd:int .
+
+default:title
+      rdf:type owl:DatatypeProperty ;
+      rdfs:domain default:Review ;
+      rdfs:label "Title"@en ;
+      rdfs:range xsd:string .
+
+default:firstname
+      rdf:type owl:DatatypeProperty ;
+      rdfs:domain default:Person ;
+      rdfs:label "First Name"@en ;
+      rdfs:range xsd:string .
+
+<http://www.ontoreview.com/ontologies/review.owl>
+      rdf:type owl:Ontology .
+
+default:hasAuthor
+      rdf:type owl:ObjectProperty ;
+      rdfs:domain default:SocialContribution ;
+      rdfs:label "Author"@en ;
+      rdfs:range default:Person .
+
+default:isReviewOf
+      rdf:type owl:ObjectProperty ;
+      rdfs:domain default:Review ;
+      rdfs:label "is Review of"@en ;
+      rdfs:range default:Feature ;
+      owl:inverseOf default:hasReview .
+
+default:email
+      rdf:type owl:FunctionalProperty , owl:DatatypeProperty ;
+      rdfs:domain default:Person ;
+      rdfs:label "Email"@en ;
+      rdfs:range xsd:string .
+
+default:Feature
+      rdf:type owl:Class ;
+      rdfs:label "Feature"@en ;
+      rdfs:subClassOf owl:Thing ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:cardinality "1"^^xsd:int ;
+                owl:onProperty default:featureName
+              ] ;
+      owl:disjointWith default:Person , default:SocialContribution , default:Object .
+
+default:hasFeature
+      rdf:type owl:ObjectProperty ;
+      rdfs:label "Has Feature"@en ;
+      owl:inverseOf default:isFeatureOf .
+
+default:Comment
+      rdf:type owl:Class ;
+      rdfs:label "Comment"@en ;
+      rdfs:subClassOf default:SocialContribution ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:cardinality "1"^^xsd:int ;
+                owl:onProperty default:dislikes
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:cardinality "1"^^xsd:int ;
+                owl:onProperty default:likes
+              ] ;
+      owl:disjointWith default:Review .
+
+default:rating
+      rdf:type owl:DatatypeProperty ;
+      rdfs:domain default:Review ;
+      rdfs:label "Rating"@en ;
+      rdfs:range xsd:float .
+
+default:lastname
+      rdf:type owl:DatatypeProperty ;
+      rdfs:domain default:Person ;
+      rdfs:label "Last Name"@en ;
+      rdfs:range xsd:string .
+
+<http://purl.org/dc/terms/creator>
+      rdf:type rdf:Property .
+
+default:isFeatureOf
+      rdf:type owl:ObjectProperty ;
+      rdfs:label "is Feature of"@en ;
+      owl:inverseOf default:hasFeature .
+
+default:Person
+      rdf:type owl:Class ;
+      rdfs:label "Person"@en ;
+      rdfs:subClassOf owl:Thing ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:cardinality "1"^^xsd:int ;
+                owl:onProperty default:lastname
+              ] ;
+      rdfs:subClassOf
+              [ rdf:type owl:Restriction ;
+                owl:cardinality "1"^^xsd:int ;
+                owl:onProperty default:firstname
+              ] ;
+      owl:disjointWith default:SocialContribution , default:Feature , default:Object .
+
+default:dislikes
+      rdf:type owl:DatatypeProperty ;
+      rdfs:domain default:Comment ;
+      rdfs:label "Dislikes"@en ;
+      rdfs:range xsd:int .
+
+default:Object
+      rdf:type owl:Class ;
+      rdfs:label "Reviewable Object"@en ;
+      owl:disjointWith default:Person , default:SocialContribution , default:Feature .
+
+default:isCommentOf
+      rdf:type owl:ObjectProperty ;
+      rdfs:domain default:Comment ;
+      rdfs:label "is Comment of"@en ;
+      rdfs:range default:Review ;
+      owl:inverseOf default:hasComment .
